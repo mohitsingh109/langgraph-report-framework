@@ -1,24 +1,25 @@
-def main():
-    print("Hello from app!")
+from fastapi import FastAPI
 
+from app.orchestrator import run_graph
 
-if __name__ == "__main__":
-    main()
+app = FastAPI(title="Reporting Agent")
 
+@app.on_event("startup")
+def _setup():
+    # init db step (create db or create some MCP client connect etc...)
+    pass
 
-"""Few Template json"""
-"""
-{
-    "id": <uuid>,
-    "name": "Hello Template",
-    "config": {
-        ...
-    },
-    ...
-}
-"""
+@app.get("/health")
+def health():
+    return {"ok": True}
 
-"""
-    Required field for specific template,
-    Required field to schedule a report 
-"""
+@app.get("/chat")
+def chat():
+    out = run_graph("f9ca17eb-b4fe-4b29-b5b6-8283f87e1963", {
+        "message": "I want to create a report for participate based on demographics",
+    })
+
+    return  {
+        "reply": out["reply"],
+        "candidate_templates": out["candidate_templates"]
+    }

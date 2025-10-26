@@ -6,11 +6,13 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "fastapi>=0.120.0",
-     "boto3>=1.40.50", # AWS Stuff (S3, Dynamo ...)
+    "boto3>=1.40.50", # AWS Stuff (S3, Dynamo ...)
     "flask>=3.1.2", # REST Eedpoint, fast-api
     "google-generativeai>=0.8.5", # AI
     "langchain>=0.3.27", # framework for building ai chat
     "langgraph>=0.6.10", # framework for building ai agent
     "pandas>=2.3.3",
     "python-dotenv>=1.1.1", # utils this is tool that load .env file
+    "langchain-core>=1.0.1",
+    "uvicorn>=0.38.0",
 ]
