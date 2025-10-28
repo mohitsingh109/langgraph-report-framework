@@ -45,3 +45,10 @@
   "321f163b-e14e-46df-b0b4-593211f13c72"
 ]
 ```
+
+
+Here are the templates:
+*   **Demographics: Basic** (ID: 388a6a7b-1405-4fe2-b352-eb0fc6bde269)
+* **Demographics: By Region** (ID: f4d65171-986f-4ed5-b1a5-a0e1a4adf7db)
+*   **Asset: Overview** (ID: 321f163b-e14e-46df-b0b4-593211f13c72)
+*  **Participate with incomplete checklist** (ID: 321f163b-e14e-46df-b0b4-593211f13c72)

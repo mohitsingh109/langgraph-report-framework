@@ -1,6 +1,8 @@
 from typing import Dict
 
 from app.agents.base_agent import BaseAgent
+from app.agents.routing_agent import RoutingAgent
+from app.agents.scheduling_agent import SchedulingAgent
 from app.agents.template_agent import TemplateAgent
 
 _REGISTER: Dict[str, BaseAgent] = {}
@@ -12,7 +14,7 @@ _REGISTER: Dict[str, BaseAgent] = {}
 """
 
 def init_agents():
-    for agent in [TemplateAgent()]:
+    for agent in [TemplateAgent(), RoutingAgent(), SchedulingAgent()]:
         _REGISTER[agent.name()] = agent
 
 def get_agent(name: str) -> BaseAgent:

@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from app.orchestrator import run_graph
+from app.schemas import ChatResponse, ChatRequest
 
 app = FastAPI(title="Reporting Agent")
 
@@ -13,13 +14,13 @@ def _setup():
 def health():
     return {"ok": True}
 
-@app.get("/chat")
-def chat():
-    out = run_graph("f9ca17eb-b4fe-4b29-b5b6-8283f87e1963", {
-        "message": "I want to create a report for participate based on demographics",
-    })
+@app.post("/chat", response_model=ChatResponse) # this is the respone payload we need to return in the post request (it's a fast api stuff)
+def chat(req: ChatRequest):
+    out = run_graph(req.conversation_id, req.message)
 
-    return  {
-        "reply": out["reply"],
-        "candidate_templates": out["candidate_templates"]
-    }
+    return ChatResponse(
+        conversation_id = req.conversation_id, # conversation_id == thread_id
+        status="ok",
+        reply=out.get("reply"),
+        data = out
+    )
