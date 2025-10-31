@@ -1,8 +1,6 @@
 from typing import List, Dict, Any
 
-def list_templates() -> List[Dict[str, Any]]:
-    # Fake data ideally should come from DB
-    return [
+TEMPLATE_LIST = [
         {
             "id": "388a6a7b-1405-4fe2-b352-eb0fc6bde269",
             "name": "Demographics: Basic",
@@ -40,3 +38,12 @@ def list_templates() -> List[Dict[str, Any]]:
             }
         }
     ]
+
+def list_templates() -> List[Dict[str, Any]]:
+    # Fake data ideally should come from DB
+    return TEMPLATE_LIST
+
+def add_template(obj):
+    TEMPLATE_LIST.append(obj) # DB Inset cmd or Rest api call
+
+

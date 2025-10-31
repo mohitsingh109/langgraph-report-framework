@@ -65,3 +65,15 @@ def generate_report_url_tool(job_id: str) -> Dict[str, Any]:
     """
     print("Here is the url for report")
     return {"url": f"http://dashboard.com/reports/{job_id}"}
+
+
+# Option 1: (where you are using Checkpointer as your UI message flow) [ heavy ]
+# Event 5 min it run and check the stats of the report...
+# Langgraph give you way to update the state (Checkpointer....)
+# Add new message to the state ---> [..., ..., ..., ...., .. , (Hi your report is not complete)]
+
+# Option 2: (Use the conversation table)
+# Dynamo DB we'll insert all user and AI message for a given conversation_id
+# Event 5 min it run and check the stats of the report...
+# Then insert in the DB
+

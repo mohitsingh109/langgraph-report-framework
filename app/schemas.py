@@ -9,6 +9,6 @@ class ChatRequest(BaseModel):
 # AI Response
 class ChatResponse(BaseModel):
     conversation_id: str
-    status: str
+   # status: str
     reply: str
-    data: Dict[str, Any] = {}
+   # data: Dict[str, Any] = {}
