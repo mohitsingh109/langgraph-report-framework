@@ -1,6 +1,7 @@
 from typing import Dict, Any, List
 
 from app.agents.base_agent import BaseAgent
+from ..hitl import hitl_tool, wrap_tool_with_hitl
 from ..llm import get_llm
 from ..tools.template_tool import fetch_template_tool, describe_template_tool, find_template_by_name, create_template_tool, fetch_data_point
 from langchain.agents import create_agent
@@ -25,10 +26,12 @@ class TemplateAgent(BaseAgent):
 
 def create_template_agent():
     model = get_llm()
+    tools = [fetch_template_tool, find_template_by_name, describe_template_tool, create_template_tool, fetch_data_point]
+    hitl_tool_list = wrap_tool_with_hitl(tools)
     # you can build your own graph as well
     return create_agent( # it's a reactive agent
         model=model,
-        tools=[fetch_template_tool, find_template_by_name, describe_template_tool, create_template_tool, fetch_data_point],
+        tools=hitl_tool_list,
         name="template_agent",
         system_prompt="""
             "You are TemplateAgent. Your job is to help find the correct template "

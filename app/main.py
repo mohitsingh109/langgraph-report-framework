@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from langchain_core.messages import HumanMessage
 from langchain_core.runnables import RunnableConfig
 
 from app.orchestrator import run_graph
@@ -19,11 +20,21 @@ def health():
 # UI will hit this endpoint with user message..
 # Sync...
 @app.post("/chat", response_model=ChatResponse) # this is the respone payload we need to return in the post request (it's a fast api stuff)
-def chat(req: ChatRequest):
+async def chat(req: ChatRequest):
     config = RunnableConfig(configurable={"thread_id": req.conversation_id}) # this will help graph to remember your history
-    result = workflow.invoke({
-        "messages": [{"role": "user", "content": req.message}]
-    }, config)
+    # result = workflow.invoke({
+    #     "messages": [{"role": "user", "content": req.message}]
+    # }, config)
+    async for data in workflow.astream(
+        stream_mode=["updates"],
+        input={
+            "messages": [{"role": "user", "content": req.message}]
+        },
+        subgraphs=True,
+        config=config
+    ):
+        for item in data:
+            print(item)
 
     # return ChatResponse(
     #     conversation_id = req.conversation_id, # conversation_id == thread_id
@@ -31,4 +42,4 @@ def chat(req: ChatRequest):
     #     reply=out.get("reply"),
     #     data = out
     # )
-    return ChatResponse(conversation_id=req.conversation_id, reply=result["messages"][-1].text)
+    return ChatResponse(conversation_id=req.conversation_id, reply="Dummy")

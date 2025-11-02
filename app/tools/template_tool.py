@@ -1,6 +1,8 @@
 import uuid
 from typing import Dict, Any, List
 from langchain.tools import tool
+
+from ..hitl import hitl_tool, YesNoOptions
 from ..services.template_service_client import list_templates, add_template
 
 
@@ -91,7 +93,11 @@ def fetch_data_point(domain: str) -> dict:
     return {normalized_domain: data_points}
 
 
-
+@hitl_tool(
+    message="Do you want to create a template?",
+    conformation_type='yes_no',
+    options=YesNoOptions("Create Template", 'Cancel it', 'Yes create the template', 'No cancel it')
+)
 @tool("create_template_tool", parse_docstring=True)
 def create_template_tool(name: str, required_fields:dict, description: str) -> dict:
     """
